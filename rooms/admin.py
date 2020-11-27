@@ -6,4 +6,3 @@ from . import models
 class RoomAdmin(admin.ModelAdmin):
 
     pass
- 
