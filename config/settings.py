@@ -45,7 +45,7 @@ PROJECT_APPS = [
     "rooms.apps.RoomsConfig",
 ]
 
-THIRTH_PARTY_APPS = []
+THIRTH_PARTY_APPS = ["django_countries"]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS
 
