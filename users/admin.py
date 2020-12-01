@@ -29,7 +29,10 @@ class CustomUserAdmin(UserAdmin):
 
     list_display = (
         "username",
-        "gender",
+        "first_name",
+        "last_name",
+        "email",
+        "is_active",
         "language",
         "currency",
         "superhost",

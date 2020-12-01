@@ -7,7 +7,7 @@ class Conversation(core_models.AbstractTimeStampedModel):
     """ Conversation Model Definition """
 
     participants = models.ManyToManyField(
-        "users.User", related_name="conversation", blank=True
+        "users.User", related_name="conversations", blank=True
     )
 
     def __str__(self):
@@ -17,14 +17,14 @@ class Conversation(core_models.AbstractTimeStampedModel):
         return " / ".join(usernames)
 
     def count_messages(self):
-        return self.message.count()
+        return self.messages.count()
 
-    count_messages.short_description = "Number Of Messages"
+    count_messages.short_descirption = "Number Of Messages"
 
     def count_participants(self):
         return self.participants.count()
 
-    count_participants.short_description = "Number Of participants"
+    count_participants.short_descirption = "Number Of Messages"
 
 
 class Message(core_models.AbstractTimeStampedModel):
@@ -33,10 +33,10 @@ class Message(core_models.AbstractTimeStampedModel):
 
     message = models.TextField()
     user = models.ForeignKey(
-        "users.User", related_name="message", on_delete=models.CASCADE
+        "users.User", related_name="messages", on_delete=models.CASCADE
     )
     conversation = models.ForeignKey(
-        "Conversation", related_name="message", on_delete=models.CASCADE
+        "Conversation", related_name="messages", on_delete=models.CASCADE
     )
 
     def __str__(self):
