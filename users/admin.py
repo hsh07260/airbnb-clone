@@ -8,9 +8,6 @@ class CustomUserAdmin(UserAdmin):
 
     """ Custom User admin """
 
-    # list_display = ("username", "gender", "language", "currency", "superhost")
-    # list_filter = ("language", "currency", "superhost")
-
     fieldsets = UserAdmin.fieldsets + (
         (
             "Custom Profile",
@@ -26,4 +23,16 @@ class CustomUserAdmin(UserAdmin):
                 )
             },
         ),
+    )
+
+    list_filter = UserAdmin.list_filter + ("superhost",)
+
+    list_display = (
+        "username",
+        "gender",
+        "language",
+        "currency",
+        "superhost",
+        "is_staff",
+        "is_superuser",
     )
