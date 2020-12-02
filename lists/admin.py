@@ -15,4 +15,4 @@ class List(admin.ModelAdmin):
 
     search_fields = ("^name",)
 
-    filter_horizontal = ("rooms",)
+    filter_horizontal = ("room",)

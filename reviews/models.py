@@ -7,12 +7,12 @@ class Review(core_models.AbstractTimeStampedModel):
     """ Review Model Definition """
 
     review = models.TextField()
-    accuracy = models.IntegerField()
-    communication = models.IntegerField()
-    cleanliness = models.IntegerField()
-    location = models.IntegerField()
-    check_in = models.IntegerField()
-    value = models.IntegerField()
+    accuracy = models.PositiveIntegerField()
+    communication = models.PositiveIntegerField()
+    cleanliness = models.PositiveIntegerField()
+    location = models.PositiveIntegerField()
+    check_in = models.PositiveIntegerField()
+    value = models.PositiveIntegerField()
     user = models.ForeignKey(
         "users.User", related_name="reviews", on_delete=models.CASCADE
     )

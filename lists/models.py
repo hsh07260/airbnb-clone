@@ -10,12 +10,12 @@ class List(core_models.AbstractTimeStampedModel):
     user = models.ForeignKey(
         "users.User", related_name="lists", on_delete=models.CASCADE
     )
-    rooms = models.ManyToManyField("rooms.Room", related_name="lists", blank=True)
+    room = models.ManyToManyField("rooms.Room", related_name="lists", blank=True)
 
     def __str__(self):
         return f"{self.user} - {self.name}"
 
     def count_rooms(self):
-        return self.rooms.count()
+        return self.room.count()
 
     count_rooms.short_description = "Number Of Rooms"
