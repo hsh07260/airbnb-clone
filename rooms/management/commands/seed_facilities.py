@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from rooms.models import Facility
+from rooms.models import Facilities
 
 
 class Command(BaseCommand):
@@ -14,5 +14,5 @@ class Command(BaseCommand):
             "Pool",
         ]
         for f in facilities:
-            Facility.objects.create(name=f)
+            Facilities.objects.create(name=f)
         self.stdout.write(self.style.SUCCESS(f"{len(facilities)} Facilities created!"))

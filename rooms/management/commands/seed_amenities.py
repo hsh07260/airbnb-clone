@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from rooms.models import Amenity
+from rooms.models import Amenities
 
 
 class Command(BaseCommand):
@@ -36,5 +36,5 @@ class Command(BaseCommand):
             "Ski-in/ski-out",
         ]
         for a in amenities:
-            Amenity.objects.create(name=a)
+            Amenities.objects.create(name=a)
         self.stdout.write(self.style.SUCCESS(f"{len(amenities)} Amenities created!"))

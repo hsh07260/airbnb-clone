@@ -26,15 +26,15 @@ class RoomType(AbstractItem):
         ordering = ["name"]
 
 
-class Amenity(AbstractItem):
+class Amenities(AbstractItem):
 
-    """ Amenity Model Definition """
+    """ Amenities Model Definition """
 
     class Meta:
         verbose_name_plural = "Amenities"
 
 
-class Facility(AbstractItem):
+class Facilities(AbstractItem):
 
     """ Facility Model Definition """
 
@@ -87,8 +87,8 @@ class Room(core_models.AbstractTimeStampedModel):
     room_type = models.ForeignKey(
         "RoomType", related_name="rooms", on_delete=models.SET_NULL, null=True
     )
-    amenity = models.ManyToManyField("Amenity", related_name="rooms", blank=True)
-    facility = models.ManyToManyField("Facility", related_name="rooms", blank=True)
+    amenities = models.ManyToManyField("Amenities", related_name="rooms", blank=True)
+    facilities = models.ManyToManyField("Facilities", related_name="rooms", blank=True)
     house_rules = models.ManyToManyField("HouseRule", related_name="rooms", blank=True)
 
     def save(self, *args, **kwargs):
