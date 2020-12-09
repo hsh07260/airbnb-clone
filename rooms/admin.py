@@ -3,7 +3,7 @@ from django.utils.html import mark_safe
 from . import models
 
 
-@admin.register(models.RoomType, models.Facilities, models.Amenities, models.HouseRule)
+@admin.register(models.RoomType, models.Facility, models.Amenity, models.HouseRule)
 class ItemAdmin(admin.ModelAdmin):
 
     """ Item Admin Definition """
