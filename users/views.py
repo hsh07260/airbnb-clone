@@ -83,7 +83,6 @@ def github_callback(request):
             # incorrect_client_credential error !!
             token_json = token_request.json()
             error = token_json.get("error", None)
-            print(token_json)
 
             if error is not None:
                 raise GithubException()
@@ -99,14 +98,16 @@ def github_callback(request):
                 )
                 profile_json = profile_request.json()
                 username = profile_json.get("login", None)
+                print(profile_json)
 
                 if username is not None:
                     name = profile_json.get("name")
                     email = profile_json.get("email")
                     bio = profile_json.get("bio")
-
+                    print(email)
                     try:
                         user = models.User.objects.get(email=email)
+                        print(user)
                         if user.login_method != models.User.LOGIN_GITHUB:
                             raise GithubException()
 
