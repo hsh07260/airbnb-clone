@@ -4,6 +4,7 @@ from django.views.generic import FormView
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, reverse
 from django.contrib.auth import authenticate, login, logout
+from django.core.files.base import ContentFile
 from . import forms
 from . import models
 
@@ -80,7 +81,7 @@ def github_callback(request):
                 f"https://github.com/login/oauth/access_token?client_id={client_id}&client_secret={client_secret}&code={code}",
                 headers={"Accept": "application/json"},
             )
-            # incorrect_client_credential error !!
+
             token_json = token_request.json()
             error = token_json.get("error", None)
 
@@ -107,7 +108,6 @@ def github_callback(request):
                     print(email)
                     try:
                         user = models.User.objects.get(email=email)
-                        print(user)
                         if user.login_method != models.User.LOGIN_GITHUB:
                             raise GithubException()
 
@@ -187,12 +187,17 @@ def kakao_callback(request):
             user = models.User.objects.create(
                 email=email,
                 first_name=email,
-                username=email,
+                username=nickname,
                 login_method=models.User.LOGIN_KAKAO,
                 email_verified=True,
             )
             user.set_unusable_password()
             user.save()
+            if profile_image is not None:
+                photo_request = requests.get(profile_image)
+                user.avatar.save(
+                    f"{nickname}-avatar.jpg", ContentFile(photo_request.content)
+                )
 
         login(request, user)
         return redirect(reverse("core:home"))
