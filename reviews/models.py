@@ -36,6 +36,3 @@ class Review(core_models.AbstractTimeStampedModel):
         return round(avg, 2)
 
     rating_average.short_description = "Avg"
-
-    def __str__(self):
-        return f"{self.review} - {self.room}"
