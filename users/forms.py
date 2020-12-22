@@ -4,8 +4,10 @@ from . import models
 
 class LoginForm(forms.Form):
 
-    email = forms.EmailField()
-    password = forms.CharField(widget=forms.PasswordInput)
+    email = forms.EmailField(widget=forms.EmailInput(attrs={"placeholder": "Email"}))
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={"placeholder": "Password"})
+    )
 
     def clean(self):
         email = self.cleaned_data.get("email")
@@ -13,7 +15,6 @@ class LoginForm(forms.Form):
         try:
             user = models.User.objects.get(email=email)
             if user.check_password(password):
-                print("clean!")
                 return self.cleaned_data
             else:
                 self.add_error("password", forms.ValidationError("Password is wrong"))
@@ -25,10 +26,19 @@ class SignUpForm(forms.ModelForm):
     class Meta:
         model = models.User
         fields = ("first_name", "last_name", "email")
+        widgets = {
+            "first_name": forms.TextInput(attrs={"placeholder": "First name"}),
+            "last_name": forms.TextInput(attrs={"placeholder": "Last name"}),
+            "email": forms.TextInput(attrs={"placeholder": "Email"}),
+        }
 
-    password = forms.CharField(widget=forms.PasswordInput, required=True)
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={"placeholder": "Password"}), required=True
+    )
     password1 = forms.CharField(
-        widget=forms.PasswordInput, required=True, label="Confirm Password"
+        widget=forms.PasswordInput(attrs={"placeholder": "Confirm password"}),
+        required=True,
+        label="Confirm Password",
     )
 
     def clean_email(self):
