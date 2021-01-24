@@ -1,10 +1,13 @@
 import os
 import requests
+from django.utils import translation
+from django.http import HttpResponse
 from django.contrib.auth.views import PasswordChangeView
 from django.views.generic import FormView, DetailView, UpdateView
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, reverse
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
@@ -108,12 +111,11 @@ def github_callback(request):
                     email = profile_json.get("email")
                     bio = profile_json.get("bio")
                     try:
-                        user = models.User.objects.get(email=email)
+                        user = models.User.objects.get(username=email)
                         if user.login_method != models.User.LOGIN_GITHUB:
                             raise GithubException(
-                                "Please log in with: {user.login_method}"
+                                f"Please log in with: {user.login_method}"
                             )
-
                     except models.User.DoesNotExist:
                         user = models.User.objects.create(
                             email=email,
@@ -212,12 +214,12 @@ def kakao_callback(request):
         return redirect(reverse("users:login"))
 
 
-class UserProfileView(DetailView):
+class UserProfileView(mixins.LoggedInOnlyView, DetailView):
     model = models.User
     context_object_name = "user_obj"
 
 
-class UpdateProfileView(SuccessMessageMixin, UpdateView):
+class UpdateProfileView(mixins.LoggedInOnlyView, SuccessMessageMixin, UpdateView):
     model = models.User
     template_name = "users/update-profile.html"
     fields = (
@@ -259,4 +261,21 @@ class UpdatePasswordView(SuccessMessageMixin, PasswordChangeView):
         return form
 
     def get_success_url(self):
+        print(self.request.user)
         return self.request.user.get_absolute_url()
+
+
+@login_required
+def switch_hosting(request):
+    try:
+        del request.session["is_hosting"]
+    except KeyError:
+        request.session["is_hosting"] = True
+    return redirect(reverse("core:home"))
+
+
+def switch_language(request):
+    lang = request.GET.get("lang", None)
+    if lang is not None:
+        request.session[translation.LANGUAGE_SESSION_KEY] = lang
+    return HttpResponse(status=200)
