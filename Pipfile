@@ -10,6 +10,7 @@ django-seed = "*"
 django-extensions = "*"
 django-dotenv = "*"
 requests = "*"
+pipenv-to-requirements = "*"
 
 [dev-packages]
 flake8 = "*"
