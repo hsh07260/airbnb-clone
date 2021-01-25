@@ -4,13 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "==2.2.5"
-pillow = "*"
 django-seed = "*"
 django-extensions = "*"
 django-dotenv = "*"
 requests = "*"
 pipenv-to-requirements = "*"
+Django = "==2.2.5"
+Pillow = "*"
 
 [dev-packages]
 flake8 = "*"
