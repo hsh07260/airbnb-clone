@@ -25,7 +25,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = "*"
+ALLOWED_HOSTS = ["airbnb-clone.eba-jikpnpfr.ap-northeast-2.elasticbeanstalk.com"]
 
 
 # Application definition
